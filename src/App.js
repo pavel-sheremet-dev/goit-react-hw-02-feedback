@@ -4,32 +4,23 @@ import Container from './components/container/Container';
 import Section from './components/section/Section';
 import FeedbackOptions from './components/feedbackOptions/FeedbackOptions';
 import Statistics from './components/statistics/Statistics';
-
-const data = {
-  good: 0,
-  neutral: 0,
-  bad: 0,
-};
+import data from './data/stats.json';
 
 export default class App extends Component {
-  state = { data, total: 0, positive: '' };
+  state = { data };
 
   onLeaveFeedback = name => {
-    this.setState(({ data, total }) => ({
+    this.setState(({ data }) => ({
       [name]: (data[name] += 1),
-      total: total + 1,
-    }));
-    this.setState(({ data, total }) => ({
-      positive: `${Math.round((data.good / total) * 100)}%`,
     }));
   };
 
   render() {
     const {
       data: { good, neutral, bad },
-      total,
-      positive,
     } = this.state;
+    const total = good + neutral + bad;
+    const positive = `${Math.round((data.good / total) * 100)}%`;
     return (
       <>
         <Container>
