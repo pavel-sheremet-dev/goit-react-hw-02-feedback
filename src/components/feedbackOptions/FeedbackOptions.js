@@ -1,27 +1,33 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
-  FeedbackBtnStyled,
-  ButtonsListItemStyled,
-  ButtonsListStyled,
+  FeedbackBtn,
+  ButtonsListItem,
+  ButtonsList,
 } from './FeedbackOptions.styled';
 
 const FeedbackOptions = ({ data, onBtnClick }) => {
   return (
-    <ButtonsListStyled>
+    <ButtonsList>
       {Object.keys(data).map(item => (
-        <ButtonsListItemStyled key={item}>
-          <FeedbackBtnStyled
+        <ButtonsListItem key={item}>
+          <FeedbackBtn
             type="button"
             onClick={() => {
               onBtnClick(item);
             }}
           >
             {item}
-          </FeedbackBtnStyled>
-        </ButtonsListItemStyled>
+          </FeedbackBtn>
+        </ButtonsListItem>
       ))}
-    </ButtonsListStyled>
+    </ButtonsList>
   );
+};
+
+FeedbackOptions.propTypes = {
+  data: PropTypes.object,
+  onBtnClick: PropTypes.func.isRequired,
 };
 
 export default FeedbackOptions;

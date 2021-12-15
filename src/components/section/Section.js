@@ -1,13 +1,20 @@
 import React from 'react';
-import { BoxStyled } from './Section.styled';
+import PropTypes from 'prop-types';
+
+import { SectionContainer, SectionTitle } from './Section.styled';
 
 const Section = ({ title, children }) => {
   return (
-    <BoxStyled>
-      <p className="title">{title}</p>
+    <SectionContainer>
+      {title && <SectionTitle className="title">{title}</SectionTitle>}
       {children}
-    </BoxStyled>
+    </SectionContainer>
   );
+};
+
+Section.propTypes = {
+  title: PropTypes.string,
+  children: PropTypes.node,
 };
 
 export default Section;

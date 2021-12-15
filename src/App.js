@@ -4,41 +4,40 @@ import Container from './components/container/Container';
 import Section from './components/section/Section';
 import FeedbackOptions from './components/feedbackOptions/FeedbackOptions';
 import Statistics from './components/statistics/Statistics';
-import data from './data/stats.json';
 
 export default class App extends Component {
-  state = { data };
+  state = {
+    initialValue: {
+      good: 0,
+      neutral: 0,
+      bad: 0,
+    },
+  };
 
   onLeaveFeedback = name => {
-    this.setState(({ data }) => ({
-      [name]: (data[name] += 1),
+    this.setState(({ initialValue }) => ({
+      [name]: (initialValue[name] += 1),
     }));
   };
 
   render() {
     const {
-      data: { good, neutral, bad },
+      initialValue: { good, neutral, bad },
     } = this.state;
     const total = good + neutral + bad;
-    const positive = `${Math.round((data.good / total) * 100)}%`;
+    const positive = `${Math.round((good / total) * 100)}%`;
     return (
       <>
         <Container>
           <Section title="Please rate the product">
             <FeedbackOptions
-              data={this.state.data}
+              data={this.state.initialValue}
               onBtnClick={this.onLeaveFeedback}
             />
           </Section>
           <Section title="Rating statistics">
             {total ? (
-              <Statistics
-                good={good}
-                neutral={neutral}
-                bad={bad}
-                total={total}
-                positive={positive}
-              />
+              <Statistics data={{ good, neutral, bad, total, positive }} />
             ) : (
               <p>No stats yet</p>
             )}

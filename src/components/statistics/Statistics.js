@@ -1,16 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { StatItem } from './Statistics.styled';
 
-const Statistics = props => {
+const Statistics = ({ data }) => {
   return (
     <ul>
-      {Object.keys(props).map(item => (
+      {Object.keys(data).map(item => (
         <StatItem key={item}>
-          {item}: {props[item]}
+          {item}: {data[item]}
         </StatItem>
       ))}
     </ul>
   );
+};
+
+Statistics.propTypes = {
+  data: PropTypes.object,
 };
 
 export default Statistics;
