@@ -7,40 +7,40 @@ import Statistics from './components/statistics/Statistics';
 
 export default class App extends Component {
   state = {
-    initialValue: {
-      good: 0,
-      neutral: 0,
-      bad: 0,
-    },
+    good: 0,
+    neutral: 0,
+    bad: 0,
   };
 
   onLeaveFeedback = name => {
-    this.setState(({ initialValue }) => ({
-      [name]: (initialValue[name] += 1),
+    this.setState(prevState => ({
+      [name]: (prevState[name] += 1),
     }));
   };
 
+  countTotalFeedbacks = state =>
+    Object.values(state).reduce((acc, option) => acc + option, 0);
+
+  countPositiveFeedbacks = (good, total) =>
+    `${Math.round((good / total) * 100)}%`;
+
   render() {
-    const {
-      initialValue: { good, neutral, bad },
-    } = this.state;
-    const total = good + neutral + bad;
-    const positive = `${Math.round((good / total) * 100)}%`;
+    const { good } = this.state;
+    const total = this.countTotalFeedbacks(this.state);
+    const positive = this.countPositiveFeedbacks(good, total);
+    const statisticsData = { ...this.state, total, positive };
+
     return (
       <>
         <Container>
           <Section title="Please rate the product">
             <FeedbackOptions
-              data={this.state.initialValue}
+              data={this.state}
               onBtnClick={this.onLeaveFeedback}
             />
           </Section>
           <Section title="Rating statistics">
-            {total ? (
-              <Statistics data={{ good, neutral, bad, total, positive }} />
-            ) : (
-              <p>No stats yet</p>
-            )}
+            {total ? <Statistics data={statisticsData} /> : <p>No stats yet</p>}
           </Section>
         </Container>
       </>

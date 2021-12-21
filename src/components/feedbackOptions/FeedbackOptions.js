@@ -13,8 +13,9 @@ const FeedbackOptions = ({ data, onBtnClick }) => {
         <ButtonsListItem key={item}>
           <FeedbackBtn
             type="button"
-            onClick={() => {
-              onBtnClick(item);
+            name={item}
+            onClick={e => {
+              onBtnClick(e.currentTarget.name);
             }}
           >
             {item}
